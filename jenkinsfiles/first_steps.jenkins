@@ -1,0 +1,30 @@
+#!groovy
+// Check MyCentosVM - "cnt7" properties
+properties([disableConcurrentBuilds()])
+
+pipeline {
+    agent { 
+        label 'master'
+        }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        timestamps()
+    }
+    stages {
+        stage("First step") {
+            steps {
+                sh 'ssh root@cnt7 \'hostname\''
+            }
+        }
+        stage("Second step") {
+            steps {
+                sh 'ssh root@cnt7 \'uptime\''
+            }
+        }
+        stage("Third step") {
+            steps {
+                sh 'ssh root@cnt7 \'whoami\''
+            }
+        }
+    }
+}
